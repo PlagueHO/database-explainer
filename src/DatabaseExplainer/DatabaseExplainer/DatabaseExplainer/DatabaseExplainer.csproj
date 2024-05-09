@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DatabaseExplainer.ServiceDefaults\DatabaseExplainer.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\DatabaseExplainer.Client\DatabaseExplainer.Client.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.4" />
+  </ItemGroup>
+
+</Project>
