@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.11.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.11.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Experimental.Agents" Version="1.11.0-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.Markdown" Version="1.11.0-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.11.0-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.11.0-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.PromptTemplates.Handlebars" Version="1.11.0" />
     <PackageReference Include="MudBlazor" Version="6.19.1" />
     <ProjectReference Include="..\..\DatabaseExplainer.ServiceDefaults\DatabaseExplainer.ServiceDefaults.csproj" />
     <ProjectReference Include="..\DatabaseExplainer.Client\DatabaseExplainer.Client.csproj" />
