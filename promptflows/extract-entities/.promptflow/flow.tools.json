@@ -1,0 +1,49 @@
+{
+  "package": {},
+  "code": {
+    "hello.jinja2": {
+      "type": "prompt",
+      "inputs": {
+        "text": {
+          "type": [
+            "string"
+          ]
+        }
+      }
+    },
+    "hello.py": {
+      "type": "python",
+      "inputs": {
+        "input1": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "function": "my_python_tool"
+    },
+    "extract_entities.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "text": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "extract_entities.jinja2"
+    },
+    "echo_extracted_entities.py": {
+      "type": "python",
+      "inputs": {
+        "entities": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "echo_extracted_entities.py",
+      "function": "my_python_tool"
+    }
+  }
+}

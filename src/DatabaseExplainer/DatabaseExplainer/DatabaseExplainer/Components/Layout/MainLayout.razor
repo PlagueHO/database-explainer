@@ -1,27 +1,32 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider/>
-<MudDialogProvider/>
-<MudSnackbarProvider/>
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
-<div class="page">
-    <div class="sidebar">
+<PageTitle>Database Explainer</PageTitle>
+
+<MudLayout>
+    <MudAppBar>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => ToggleNavDrawer())" />
+        Database Explainer
+        <SettingsMenu />
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_navDrawerOpen">
         <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
+    </MudDrawer>
+    <MudMainContent>
         <article class="content px-4">
             @Body
         </article>
-    </main>
-</div>
+    </MudMainContent>
+</MudLayout>
 
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+@code {
+    bool _navDrawerOpen = true;
+
+    void ToggleNavDrawer()
+    {
+        _navDrawerOpen = !_navDrawerOpen;
+    }
+}
