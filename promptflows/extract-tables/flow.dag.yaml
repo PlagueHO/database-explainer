@@ -1,0 +1,177 @@
+$schema: https://azuremlschemas.azureedge.net/promptflow/latest/Flow.schema.json
+environment:
+  python_requirements_txt: requirements.txt
+inputs:
+  sql:
+    type: string
+    default: >-
+      USE [VISTAVM_Import]
+
+      GO
+
+      /****** Object:  StoredProcedure [dbo].[spVISTAVM_CFI_Import_From_Voucher_Staging]    Script Date: 4/9/2024 11:23:23 PM ******/
+
+      SET ANSI_NULLS ON
+
+      GO
+
+      SET QUOTED_IDENTIFIER ON
+
+      GO
+
+
+      ALTER PROCEDURE [dbo].[spVISTAVM_CFI_Import_From_Voucher_Staging]
+
+      AS
+
+
+      ----BEGIN DEBUGGING CODE:
+
+      --USE VISTAVM_Import
+
+      --SET NOCOUNT ON
+
+      --SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+
+      PRINT 'THIS PROCEDURE HAS BEEN DEPRECATED.  IT WAS FOR 12-DIGIT VOUCHERS; WE ARE NOW USING ONLY 16 DIGIT RANDOMIZED VOUCHER NUMBERS.'
+
+      /*
+
+      --LOCAL VARIABLE DECLARATIONS: CURSOR
+
+      DECLARE @Record_ID                    AS INT
+
+      DECLARE @current_voucher_bin          AS VARCHAR(50)
+
+      DECLARE @current_voucher_serial_start AS INT
+
+      DECLARE @current_voucher_serial_end   AS INT
+
+      DECLARE @current_voucher_qty          AS INT
+
+      DECLARE @current_voucher_postdt       AS DATETIME
+
+      DECLARE @current_voucher_expirydt     AS DATETIME
+
+      DECLARE @current_voucher_saleprice    AS MONEY
+
+      --LOCAL VARIABLES:
+
+      DECLARE @validation_binid             AS INT
+
+      DECLARE @validation_errormessage      AS VARCHAR(1000)
+
+      DECLARE @Processing_Detail_Message    AS VARCHAR(MAX) 
+
+      DECLARE @CRLF                         AS VARCHAR(10)
+
+      SET @CRLF = CHAR(10) + CHAR(13)
+
+
+      --Runtimes per 10000 records: 
+
+      --I have modified versions of _uspIssueCreate and _uspStockCreate to strip transactions out of them = this prevents this iterative script from getting screwed from all the transactions.  Left in uspIssueUpdate.
+
+
+      DECLARE Vista_Voucher_CURSOR CURSOR FOR
+         SELECT Record_ID, voucher_bin, voucher_serial_start, voucher_serial_end, voucher_qty, voucher_postdt, voucher_expirydt, voucher_saleprice
+         FROM Voucher_Staging
+         WHERE Processed_Status = 0 --0 = processed, 1 = processed, 2 = error
+            AND voucher_bin IN (SELECT nVoucherCode FROM VISTAVM..tblVoucherType)
+            AND VoucherType_strRandomiseBarcodes <> 'Y'
+            AND voucher_postdt > 'Sep 8, 2015' --Corporate Fulfilment switched to new method, then switched back - this caused all "old" vouchers to be detected again.  DC Sep 10, 2015
+         ORDER BY voucher_bin DESC, voucher_serial_start, voucher_serial_end
+      OPEN Vista_Voucher_CURSOR
+
+      FETCH NEXT FROM Vista_Voucher_CURSOR INTO @Record_ID, @current_voucher_bin, @current_voucher_serial_start, @current_voucher_serial_end, @current_voucher_qty, @current_voucher_postdt, @current_voucher_expirydt, @current_voucher_saleprice
+
+      WHILE @@FETCH_STATUS = 0
+         BEGIN --Vista_Voucher_CURSOR
+            SET @Processing_Detail_Message = 'Working with..."' + CAST(@Record_ID AS VARCHAR(50)) + '" AS Record_ID, "' + CAST(@current_voucher_bin AS VARCHAR(50)) + '" AS voucher_bin, "' + CAST(@current_voucher_serial_start AS VARCHAR(50)) + '" AS voucher_serial_start, "' + CAST(@current_voucher_serial_end AS VARCHAR(50)) + '" AS voucher_serial_end, "' + CAST(@current_voucher_qty AS VARCHAR(50)) + '" AS voucher_qty, "' + CAST(@current_voucher_postdt AS VARCHAR(50)) + '" AS voucher_postdt, "' + CAST(@current_voucher_expirydt AS VARCHAR(50)) + '" AS voucher_expirydt, "' + CAST(@current_voucher_saleprice AS VARCHAR(50)) + '" AS voucher_saleprice...'
+            --PRINT @Processing_Detail_Message
+            SET @validation_errormessage = ''
+
+            --Validation on voucher bin number
+            --verify voucher bin number exists in the system, if it doesn't, exit
+            SELECT @validation_binid = lID FROM VISTAVM..tblVoucherType WHERE nVoucherCode = @current_voucher_bin
+            IF @validation_binid IS NULL
+            BEGIN
+               SET @validation_errormessage = 'Cannot find voucher bin number ' + CAST(@current_voucher_bin AS VARCHAR(50)) + ' in tblVoucherType'
+               UPDATE VISTAVM_Import..Voucher_Staging SET Processed_Status = 2, Processing_Error_Message = @validation_errormessage, Processed_Date = GETDATE() WHERE CURRENT OF Vista_Voucher_CURSOR
+               --PRINT @validation_errormessage
+            END
+
+            IF @validation_binid IS NOT NULL
+               BEGIN --Valid Voucher BIN
+
+                  --Update VISTAVM..tblVoucherType (contains the last number used for any given voucher code), make sure that it is one more than the current number
+
+                  SET @Processing_Detail_Message = @Processing_Detail_Message + @CRLF + 'Updating VISTAVM..tblVoucherType.lLastNumberUsed = "' + CAST(@current_voucher_serial_end AS VARCHAR(50)) + '"...'
+                  UPDATE VISTAVM..tblVoucherType SET lLastNumberUsed = @current_voucher_serial_end + 1 WHERE lID = @validation_binid
+
+                  --INSERT vouchers into tables but not directly; we use Vista's stored procedures.
+         
+                  --PRINT 'Inserting ' + cast(@current_voucher_qty AS VARCHAR(50)) + ' vouchers.'
+
+                  --Stock Create/Issue Create
+                  --PRINT 'Calling "VISTAVM.dbo.uspStockCreate ' + CAST(@validation_binid AS VARCHAR(50)) + ', 0, ' + CAST(@current_voucher_serial_start AS VARCHAR(50)) + ', ' + CAST(@current_voucher_serial_end AS VARCHAR(50)) + ', 1, ' + CAST(@current_voucher_expirydt AS VARCHAR(50)) + '"...'
+                  SET @Processing_Detail_Message = @Processing_Detail_Message + @CRLF + 'Calling "VISTAVM.dbo.uspStockCreate ' + CAST(@validation_binid AS VARCHAR(50)) + ', 0, ' + CAST(@current_voucher_serial_start AS VARCHAR(50)) + ', ' + CAST(@current_voucher_serial_end AS VARCHAR(50)) + ', 1, ' + CAST(@current_voucher_expirydt AS VARCHAR(50)) + '"...'
+                  EXEC VISTAVM.dbo._uspStockCreate @validation_binid, 0, @current_voucher_serial_start, @current_voucher_serial_end, 1, @current_voucher_expirydt
+                  IF @@ERROR <> 0
+                     BEGIN
+                        SET @validation_errormessage = 'Error on call "VISTAVM.dbo.uspStockCreate ' + CAST(@validation_binid AS VARCHAR(50)) + ', 0, ' + CAST(@current_voucher_serial_start AS VARCHAR(50)) + ', ' + CAST(@current_voucher_serial_end AS VARCHAR(50)) + ', 1, ' + CAST(@current_voucher_expirydt AS VARCHAR(50)) + '"...'
+                        UPDATE VISTAVM_Import..Voucher_Staging SET Processed_Status = 2, Processing_Error_Message = @validation_errormessage, Processed_Date = GETDATE() WHERE CURRENT OF Vista_Voucher_CURSOR
+                        --PRINT @validation_errormessage
+                        SET @Processing_Detail_Message = @Processing_Detail_Message + @CRLF + @validation_errormessage
+                     END
+
+                  --PRINT 'Calling "VISTAVM.dbo.uspIssueCreate 8, ' + CAST(@current_voucher_postdt AS VARCHAR(50)) + ', 1, ' + CAST(@validation_binid AS VARCHAR(50)) + ', ' + CAST(@current_voucher_serial_start AS VARCHAR(50)) + ', ' + CAST(@current_voucher_qty AS VARCHAR(50)) + ', 1, ' + CAST(@current_voucher_saleprice AS VARCHAR(50)) + ', 0, ' + CAST(@current_voucher_expirydt AS VARCHAR(50)) + '" ...'
+                  SET @Processing_Detail_Message = @Processing_Detail_Message + @CRLF + 'Calling "VISTAVM.dbo.uspIssueCreate 8, ' + CAST(@current_voucher_postdt AS VARCHAR(50)) + ', 1, ' + CAST(@validation_binid AS VARCHAR(50)) + ', ' + CAST(@current_voucher_serial_start AS VARCHAR(50)) + ', ' + CAST(@current_voucher_qty AS VARCHAR(50)) + ', 1, ' + CAST(@current_voucher_saleprice AS VARCHAR(50)) + ', 0, ' + CAST(@current_voucher_expirydt AS VARCHAR(50)) + '" ...'
+                  EXEC VISTAVM.dbo._uspIssueCreate 8, @current_voucher_postdt, 1, @validation_binid, @current_voucher_serial_start, @current_voucher_qty, 1, @current_voucher_saleprice, @current_voucher_saleprice, 0 , @current_voucher_expirydt
+                  IF @@ERROR <> 0
+                     BEGIN
+                        SET @validation_errormessage = 'Error on call "VISTAVM.dbo.uspIssueCreate 8, ' + CAST(@current_voucher_postdt AS VARCHAR(50)) + ', 1, ' + CAST(@validation_binid AS VARCHAR(50)) + ', ' + CAST(@current_voucher_serial_start AS VARCHAR(50)) + ', ' + CAST(@current_voucher_qty AS VARCHAR(50)) + ', 1, ' + CAST(@current_voucher_saleprice AS VARCHAR(50)) + ', 0, ' + CAST(@current_voucher_expirydt AS VARCHAR(50)) + '" ...'
+                        UPDATE VISTAVM_Import..Voucher_Staging SET Processed_Status = 2, Processing_Error_Message = @validation_errormessage, Processed_Date = GETDATE() WHERE CURRENT OF Vista_Voucher_CURSOR
+                        --PRINT @validation_errormessage
+                        SET @Processing_Detail_Message = @Processing_Detail_Message + @CRLF + @validation_errormessage
+                     END
+
+                  IF @validation_errormessage = '' UPDATE VISTAVM_Import..Voucher_Staging SET Processed_Status = 1, Processing_Error_Message = '', Processed_Date = GETDATE(), Processing_Detail_Message = @Processing_Detail_Message WHERE CURRENT OF Vista_Voucher_CURSOR
+
+               END --Valid Voucher BIN
+
+            --PRINT 'Record completed.'
+            --PRINT ''
+            --PRINT '-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------'
+            FETCH NEXT FROM Vista_Voucher_CURSOR INTO @Record_ID, @current_voucher_bin, @current_voucher_serial_start, @current_voucher_serial_end, @current_voucher_qty, @current_voucher_postdt, @current_voucher_expirydt, @current_voucher_saleprice
+         END   --Vista_Voucher_CURSOR
+      CLOSE Vista_Voucher_CURSOR
+
+      DEALLOCATE Vista_Voucher_CURSOR
+
+      */
+outputs:
+  tables:
+    type: string
+    reference: ${echo_extracted_tables.output}
+nodes:
+- name: extract_tables
+  type: llm
+  source:
+    type: code
+    path: extract_tables.jinja2
+  inputs:
+    deployment_name: gpt-4-turbo
+    max_tokens: 4000
+    temperature: 0
+    text: ${inputs.sql}
+  connection: dsr-aisandbox-swc-aiservices752581255487_aoai
+  api: chat
+- name: echo_extracted_tables
+  type: python
+  source:
+    type: code
+    path: echo_extracted_tables.py
+  inputs:
+    entities: ${extract_tables.output}

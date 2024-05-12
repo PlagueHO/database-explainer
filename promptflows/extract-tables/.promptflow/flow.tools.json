@@ -22,7 +22,7 @@
       },
       "function": "my_python_tool"
     },
-    "extract_entities.jinja2": {
+    "extract_tables.jinja2": {
       "type": "llm",
       "inputs": {
         "text": {
@@ -31,9 +31,9 @@
           ]
         }
       },
-      "source": "extract_entities.jinja2"
+      "source": "extract_tables.jinja2"
     },
-    "echo_extracted_entities.py": {
+    "echo_extracted_tables.py": {
       "type": "python",
       "inputs": {
         "entities": {
@@ -42,7 +42,7 @@
           ]
         }
       },
-      "source": "echo_extracted_entities.py",
+      "source": "echo_extracted_tables.py",
       "function": "my_python_tool"
     }
   }
