@@ -1,2 +1,168 @@
-# database-explainer
-Application to explain T-SQL against a database
+<a id="readme-top"></a>
+
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <h3 align="center">
+    Reason over my data
+  </h3>
+
+  <p align="center">
+    powered by
+    <br />
+    <a href="https://github.com/plagueho/database-explainer">
+        <img src="docs/img/logo.png" alt="Logo" height="80">
+    </a>
+  </p>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+    </li>  
+    <li>
+      <a href="#technologies-explored">Technologies Explored</a>
+    </li>    
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#disclaimer">Disclaimer</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#references">References</a></li>
+  </ol>
+</details>
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+This project provides a number of tools that help you explain the structure of a database, queries and stored procedures executed against it.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Getting Started
+
+TBC.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+## Technologies Explored
+
+
+Major cloud technologies/frameworks/libraries are listed here:
+
+- [![Azure][azure-shield]][azure-url]
+- [![Semantic Kernel][sk-shield]][sk-url]
+- [![.NET][dotnet-shield]][dotnet-url]   
+- [![PromptFlow][prompt-flow-shield]][prompt-flow-url]
+- [![Python][python-shield]][Python-url]
+- [![OpenAI][openai-shield]][openai-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. **Fork the Project**: Fork the repo you want to contribute to by clicking the Fork button on the top right corner of the repo page.
+1. **Clone the Repo**: Clone the forked repo to your local machine using the command (`git clone URL_OF_FORK`).
+2. **Branch**: Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. **Commit**: Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. **Push to the Branch**: (`git push origin feature/AmazingFeature`)
+5. **Open a Pull Request**: Go to your forked repo on GitHub and click Contribute and then Open a pull request. Fill out the details of your pull request and submit it.
+
+Learn more about contributing to projects [here](https://docs.github.com/en/get-started/quickstart/contributing-to-projects).
+
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- DISCPLAIMER -->
+## Disclaimer
+
+This template is provided "as is" without warranty of any kind, whether express or implied. Use at your own risk! The author will not be liable for any losses or damages associated with the use of this template. 
+
+It is intended to be used as a starting point for your own project and not as a final product.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- CONTACT -->
+## Contact
+
+- [Daniel Scott-Raynsford](https://danielscottraynsford.com) | [@github](https://github.com/PlagueHO) | rohit@try-it.dev
+- Project Link: [https://github.com/PlagueHO/database-explainer](https://github.com/PlagueHO/database-explainer)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
+
+These toolkits are never the result of solitary efforts. I wish to extend my heartfelt thanks to my friends, colleagues, and fellow community members for their exceptional contributions. We have built upon your work, and it is your efforts that have laid the foundation for our success. Your work is not only recognised but deeply valued.
+
+* [The Prompt Flow Team]()
+* [This amazing ReadME template](https://github.com/othneildrew/Best-README-Template)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- REFERENCES -->
+## References
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+> <br/> Documentation generated by AI, edited by humans. ❤️ <br/> <br/>
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+[contributors-shield]: https://img.shields.io/github/contributors/PlagueHO/database-explainer.svg
+[contributors-url]: https://github.com/PlagueHO/database-explainer/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/PlagueHO/database-explainer.svg
+[forks-url]: https://github.com/PlagueHO/database-explainer/network/members
+[stars-shield]: https://img.shields.io/github/stars/PlagueHO/database-explainer.svg
+[stars-url]: https://github.com/PlagueHO/database-explainer/stargazers
+[issues-shield]: https://img.shields.io/github/issues/PlagueHO/database-explainer.svg
+[issues-url]: https://github.com/PlagueHO/database-explainer/issues
+[license-shield]: https://img.shields.io/github/license/PlagueHO/database-explainer.svg
+[license-url]: https://github.com/PlagueHO/database-explainer/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/dscottraynsford
+
+
+[openai-shield]: https://img.shields.io/badge/OpenAI-5A5AFF?logo=openai&logoColor=white
+[openai-url]: https://openai.com/
+[azure-shield]: https://img.shields.io/badge/Microsoft_Azure-0078D4?logo=microsoft-azure&logoColor=white
+[azure-url]: https://azure.microsoft.com
+[dotnet-shield]: https://img.shields.io/badge/.NET-512BD4?logo=dotnet&logoColor=white
+[dotnet-url]: https://dotnet.microsoft.com
+[python-shield]: https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white
+[python-url]: https://www.python.org
+[sk-shield]: https://img.shields.io/badge/Semantic%20Kernel-5E5E5E?logo=microsoft
+[sk-url]: https://learn.microsoft.com/en-us/semantic-kernel/
+[prompt-flow-shield]: https://img.shields.io/badge/Prompt%20Flow-505E3E?logo=microsoft
+[prompt-flow-url]: https://aka.ms/promptflow
