@@ -1,0 +1,13 @@
+autogen
+autogenui
+langchain
+promptflow
+promptflow-azure
+promptflow-core
+promptflow-devkit
+promptflow-evals
+promptflow-rag
+promptflow-tools
+promptflow-tracing    
+prompty
+semantic-kernel
